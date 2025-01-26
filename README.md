@@ -1,69 +1,99 @@
-# Teknasyon Case Study - Data Scientist
+# Assumptions!!!:
+    It is assumed that the project folder contains a subfolder named `datasets`, which includes two files: `churn_train.csv` and `sms_spam_detection.csv`. Additionally, please ensure that the Python packages listed in the `requirements.txt` file are installed in your environment.
 
-Welcome to the Teknasyon recruitment case study! This task is designed to evaluate your analytical and problem-solving skills in two domains. You may choose to complete **Part A**, **Part B**, or both. If you choose only one, we expect you to outline a verbal design for the other, describing how you would approach the problem.
+# Part A: Analysis of the SMS Spam Detection File
 
----
+The `sms_spam_detection.ipynb` notebook is designed to implement a spam detection model using various machine learning algorithms. The analysis is structured into several key components:
+You can test the spam detection model using the file named `spam_detection_gui.py` by executing the code within it.
 
-## Part A: SMS Spam Detection
+### 1. Data Import and Preprocessing
+    The preprocessing function is defined to clean the text data by converting it to lowercase, removing extra spaces, and eliminating non-alphabetic characters. 
+    Additionally, the `SentenceTransformer` model, specifically `distiluse-base-multilingual-cased`, is employed to encode the cleaned text messages into vector representations, facilitating effective input for the machine learning algorithms.
 
-The goal of this task is to classify SMS messages as **Spam** or **Not Spam**. We know this is an old school problem, but we would love to see your skills in text processing, feature engineering, model building on a multilingual dataset. (perspective and creativity too)
+### 2. Model Definition
+    Three machine learning models are defined for spam detection:
+    - **Support Vector Classifier (SVC)**
+    - **Logistic Regression**
+    - **Random Forest Classifier**
 
-### Dataset
-A dataset of SMS messages is provided. Each row contains:
-- The SMS content.
-- A label indicating whether the message is "Spam" or "Not Spam."
+    These models are chosen for their effectiveness in classification tasks, particularly in text classification scenarios.
 
-### What We Expect
-- Train a classification model to predict the labels.
-- Demonstrate how you handle preprocessing, feature extraction, and model evaluation.
-- Feel free to use techniques like traditional ML (e.g., TF-IDF + SVM) or advanced methods (e.g., Transformer-based models, LLMs).
-- Provide detailed documentation of your approach and any assumptions.
+### 3. Model Training and Evaluation
+    The models were trained and evaluated using a dataset of text messages labeled as either "spam" or "ham." The performance of each model was assessed using key metrics: F1 Score, Recall, and Precision.
 
----
+    - **Support Vector Classifier (SVC)**
+    - F1 Score: 0.971
+    - Recall: 0.955
+    - Precision: 0.989
 
-## Part B: Customer Churn Analysis
+    - **Random Forest Classifier**
+    - F1 Score: 0.952
+    - Recall: 0.925
+    - Precision: 0.981
 
-This task involves predicting customer churn based on their account and usage behavior. The dataset includes various metrics related to customer activity and account history.
+    - **Logistic Regression**
+    - F1 Score: 0.950
+    - Recall: 0.939
+    - Precision: 0.962
+
+### Conclusion
+    The Support Vector Classifier (SVC) achieved the highest F1 Score of 0.971, indicating its superior performance in spam detection. 
+    Both the Random Forest and Logistic Regression models also performed well, with F1 Scores of 0.952 and 0.950, respectively, but the SVC outperformed them in balancing precision and recall.
+
+# Part B: Churn Analysis Documentation
+
+For this part, two files have been prepared. The first file, `churn_prediction.ipynb`, encompasses feature extraction and model training processes. 
+The second file, `churn_prediction_gui.py`, is designed to create a graphical user interface (GUI) for testing the performance of the trained model (**just run the file).
+In the following sections, I will present the data processing and model evaluation conducted in the file `churn_prediction.ipynb`.
+
+### 1. Exploratory Data Analysis (EDA)
+    EDA is conducted to uncover patterns and insights within the data. This includes:
+    - Checking for missing values and understanding their impact.
+    - Visualizing the distribution of key features and the target variable (churn).
+    - Identifying correlations between features to understand relationships that may influence churn.
+
+### 2. Data Preprocessing and Feature Engineering
+    Data preprocessing includes:
+    - Encoding categorical variables to convert them into a numerical format suitable for machine learning algorithms.
+    - Normalizing or scaling features if necessary to ensure that all features contribute equally to the model.
+    - It is hypothesized that the calculated parameters—namely, call_spending_per_duration, sms_spending_per_count, and out_going_call_ratio—may exhibit lower values for customers classified as "churn" compared to those classified as "non-churn." This observation suggests that customers who are at risk of churning may demonstrate reduced engagement in terms of spending on calls and SMS, as well as a lower ratio of outgoing calls.
+
+### 3. Model Training and Evaluation
+    The performance of the models (Logistic Regression, Decision Tree Classifier, Random Forest Classifier, Gradient-Boosted Decision Trees) is assessed using metrics such as:
+    Precision, Recall, F1 Score. I also employed grid search to identify the optimal model.
+    Confusion matrices are also utilized to visualize model performance and identify areas for improvement.
+
+    - **Gradient-Boosted Decision Trees**
+        - Precision: 64%
+        - Recall: 76%
+        - F1 Score: 70%
+
+    - **Logistic Regression**
+        - Precision: 71%
+        - Recall: 61%
+        - F1 Score: 66%
+
+    - **Decision Tree Classifier**
+        - Precision: 54%
+        - Recall: 74%
+        - F1 Score: 62%
+
+    - **Random Forest Classifier**
+        - Precision: 64%
+        - Recall: 72%
+        - F1 Score: 68%
+
+    - **Random Forest Classifier**
+        - Precision: 64%
+        - Recall: 72%
+        - F1 Score: 68%
 
 
-### Dataset
-A dataset containing customer-level metrics is provided. The goal is to predict whether a customer will churn in the near future.  
-Columns in the dataset include (but are not limited to):
-- `user_account_id`: Unique customer identifier.
-- `user_lifetime`: Number of days since account creation.
-- `user_spendings`: Total spending in the last month.
-- `calls_outgoing_count`: Total number of outgoing calls in the last month.
-- `user_no_outgoing_activity_in_days`: Number of consecutive days with no outgoing activity.
-- `reloads_sum`: Total amount reloaded into the account in the last month.
+### 4. Conclusion and Recommendations
+    Based on the results, the Gradient-Boosted Decision Trees demonstrated the highest performance in predicting customer churn, 
+    achieving an F1 score of 69% and indicating its effectiveness as a reliable model for identifying at-risk customers.
+    ## Future Work
 
-### What We Expect
-- Develop a predictive model for churn classification.
-- Document your data exploration, feature engineering, and modeling steps.
-- Highlight any assumptions you made about the dataset and its context.
-- Share your thoughts on feature importance and model interpretability.
-
-## General Guidelines
-
-- **Choose Your Path**: You may work on either Part A, Part B, or both.  
-  - If you choose only one, provide a written outline of how you would approach the other task.
-- **Deliverables**: 
-  - Your model(s) (in a format we can test).
-  - The code used to EDA, preprocess data, train, and evaluate the model.
-  - Documentation detailing your approach, decisions, and conclusions.
-  - Please share all outputs with us by uploading them to your personal **GitHub** account. If you have a large file (e.g. model weights), share the Google Drive link to download it.
-- **Creativity is Key**: Feel free to use innovative methods, modern libraries, or unique insights to solve the problems.
-
-**PS**: Please do not spend more than **3 days** on this case study. The main goal of this exercise is to understand how you approach/evaluate such problems and to have an opinion on your general Data Science knowledge.
-
-## Follow Us!
-
-[Teknasyon Tech Website](https://teknasyon.com/tech/)
-
-[Teknasyon Tech Medium](https://engineering.teknasyon.com)
-
-[Teknasyon Tech Youtube](https://www.youtube.com/c/TeknasyonTech)
-
-[Teknasyon Tech Kommunity](https://kommunity.com/teknasyon/events)
-
-
-![image.png](./assets/image.png)
+    Future analyses could explore:
+    - Incorporating additional data sources for a more comprehensive view of customer behavior.
+    - Experimenting with advanced modeling techniques, such as ensemble methods or deep learning.
