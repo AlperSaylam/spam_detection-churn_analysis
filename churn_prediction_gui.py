@@ -16,6 +16,18 @@ def make_prediction():
         calls_outgoing_count = int(calls_outgoing_count_var.get())
         sms_outgoing_count = int(sms_outgoing_count_var.get())
         user_account_balance_last = float(user_account_balance_last_var.get())
+        user_no_outgoing_activity_in_days_value = int(user_no_outgoing_activity_in_days.get())
+        
+        # New inputs for additional features
+        calls_outgoing_spendings = float(calls_outgoing_spendings_var.get())
+        calls_outgoing_duration = float(calls_outgoing_duration_var.get())
+        last_100_calls_outgoing_duration = float(last_100_calls_outgoing_duration_var.get())
+        sms_outgoing_spendings = float(sms_outgoing_spendings_var.get())
+
+        # Calculate additional features
+        call_spending_per_duration = calls_outgoing_spendings / (calls_outgoing_duration if calls_outgoing_duration > 0 else 1)  # Avoid division by zero
+        sms_spending_per_count = sms_outgoing_spendings / (sms_outgoing_count if sms_outgoing_count > 0 else 1)  # Avoid division by zero
+        out_going_call_ratio = calls_outgoing_duration / (last_100_calls_outgoing_duration if last_100_calls_outgoing_duration > 0 else 1)  # Avoid division by zero
 
         # Create DataFrame for input data
         sending_data = pd.DataFrame([{
@@ -24,7 +36,11 @@ def make_prediction():
             'user_lifetime': user_lifetime,
             'calls_outgoing_count': calls_outgoing_count,
             'sms_outgoing_count': sms_outgoing_count,
-            'user_account_balance_last': user_account_balance_last
+            'call_spending_per_duration': call_spending_per_duration,
+            'user_account_balance_last': user_account_balance_last,
+            'sms_spending_per_count': sms_spending_per_count,
+            'out_going_call_ratio': out_going_call_ratio,
+            'user_no_outgoing_activity_in_days': user_no_outgoing_activity_in_days_value
         }])
 
         # Transform and scale the data
@@ -54,6 +70,11 @@ user_lifetime_var = StringVar()
 calls_outgoing_count_var = StringVar()
 sms_outgoing_count_var = StringVar()
 user_account_balance_last_var = StringVar()
+user_no_outgoing_activity_in_days = StringVar()
+calls_outgoing_spendings_var = StringVar()  # New variable for calls_outgoing_spendings
+calls_outgoing_duration_var = StringVar()    # New variable for calls_outgoing_duration
+last_100_calls_outgoing_duration_var = StringVar()  # New variable for last_100_calls_outgoing_duration
+sms_outgoing_spendings_var = StringVar()  # New variable for sms_outgoing_spendings
 
 # Create and place labels and entry fields
 Label(root, text="Month (1-12):").grid(row=0, column=0)
@@ -74,8 +95,24 @@ Entry(root, textvariable=sms_outgoing_count_var).grid(row=4, column=1)
 Label(root, text="User Account Balance Last:").grid(row=5, column=0)
 Entry(root, textvariable=user_account_balance_last_var).grid(row=5, column=1)
 
+Label(root, text="User No Outgoing Activity in Days:").grid(row=6, column=0)
+Entry(root, textvariable=user_no_outgoing_activity_in_days).grid(row=6, column=1)
+
+# New input fields for additional features
+Label(root, text="Calls Outgoing Spendings:").grid(row=7, column=0)
+Entry(root, textvariable=calls_outgoing_spendings_var).grid(row=7, column=1)
+
+Label(root, text="Calls Outgoing Duration:").grid(row=8, column=0)
+Entry(root, textvariable=calls_outgoing_duration_var).grid(row=8, column=1)
+
+Label(root, text="Last 100 Calls Outgoing Duration:").grid(row=9, column=0)
+Entry(root, textvariable=last_100_calls_outgoing_duration_var).grid(row=9, column=1)
+
+Label(root, text="SMS Outgoing Spendings:").grid(row=10, column=0)
+Entry(root, textvariable=sms_outgoing_spendings_var).grid(row=10, column=1)
+
 # Create a button to make the prediction
-Button(root, text="Predict Churn", command=make_prediction).grid(row=6, columnspan=2)
+Button(root, text="Predict Churn", command=make_prediction).grid(row=11, columnspan=2)
 
 # Start the GUI event loop
 root.mainloop()

@@ -56,6 +56,7 @@ In the following sections, I will present the data processing and model evaluati
     Data preprocessing includes:
     - Encoding categorical variables to convert them into a numerical format suitable for machine learning algorithms.
     - Normalizing or scaling features if necessary to ensure that all features contribute equally to the model.
+    - It is hypothesized that the calculated parameters—namely, call_spending_per_duration, sms_spending_per_count, and out_going_call_ratio—may exhibit lower values for customers classified as "churn" compared to those classified as "non-churn." This observation suggests that customers who are at risk of churning may demonstrate reduced engagement in terms of spending on calls and SMS, as well as a lower ratio of outgoing calls.
 
 ### 3. Model Training and Evaluation
     The performance of the models (Logistic Regression, Decision Tree Classifier, Random Forest Classifier, Gradient-Boosted Decision Trees) is assessed using metrics such as:
@@ -63,9 +64,9 @@ In the following sections, I will present the data processing and model evaluati
     Confusion matrices are also utilized to visualize model performance and identify areas for improvement.
 
     - **Gradient-Boosted Decision Trees**
-        - Precision: 63%
+        - Precision: 64%
         - Recall: 76%
-        - F1 Score: 69%
+        - F1 Score: 70%
 
     - **Logistic Regression**
         - Precision: 71%
